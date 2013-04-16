@@ -69,7 +69,7 @@ console_xvp_pid xen
 consoleauth_manager console
 consoleauth_topic common
 control_exchange rpc 
-cpu_allocation_ratio scheduler
+cpu_allocation_ratio scheduling
 create_unique_mac_address_attempts network
 crl_file ca
 db_backend baremetal
@@ -183,18 +183,18 @@ iptables_bottom_regex network
 iptables_drop_action network
 iptables_top_regex network
 ipv6_backend ipv6
-iqn_prefix
+iqn_prefix xen
 iscsi_iqn_prefix volumes
-isolated_hosts
-isolated_images
+isolated_hosts scheduling
+isolated_images scheduling
 key_file ca
 keymap spice
 keys_path ca
 keystone_ec2_url ec2
-kombu_ssl_ca_certs
-kombu_ssl_certfile
-kombu_ssl_keyfile
-kombu_ssl_version
+kombu_ssl_ca_certs kombu
+kombu_ssl_certfile kombu
+kombu_ssl_keyfile kombu
+kombu_ssl_version kombu
 l3_lib network
 ldap_dns_base_dn ldap
 ldap_dns_password ldap
@@ -224,14 +224,14 @@ libvirt_uri hypervisor
 libvirt_vif_driver hypervisor
 libvirt_volume_drivers hypervisor
 libvirt_wait_soft_reboot_seconds hypervisor
-limit_cpu_features
+limit_cpu_features hyperv
 linuxnet_interface_driver network
 linuxnet_ovs_integration_bridge network
 live_migration_bandwidth livemigration
 live_migration_flag livemigration
 live_migration_retry_count livemigration
 live_migration_uri livemigration
-lock_path
+lock_path common
 lockout_attempts ec2
 lockout_minutes ec2
 lockout_window ec2
@@ -245,30 +245,30 @@ logging_context_format_string logging
 logging_debug_format_suffix logging
 logging_default_format_string logging
 logging_exception_prefix logging
-manager
-manager
-matchmaker_heartbeat_freq
-matchmaker_heartbeat_ttl
-matchmaker_ringfile
+manager cells
+manager conductor
+matchmaker_heartbeat_freq rpc
+matchmaker_heartbeat_ttl rpc
+matchmaker_ringfile rpc
 max_age policy
-max_hop_count
-max_instances_per_host
-max_io_ops_per_host
-max_kernel_ramdisk_size
-memcached_servers
+max_hop_count cells
+max_instances_per_host scheduling
+max_io_ops_per_host scheduling
+max_kernel_ramdisk_size xen
+memcached_servers common
 metadata_host metadata
 metadata_listen metadata
 metadata_listen_port metadata
 metadata_manager metadata
 metadata_port metadata
 metadata_workers metadata
-mkisofs_cmd
-monkey_patch
-monkey_patch_modules
+mkisofs_cmd configdrive
+monkey_patch testing
+monkey_patch_modules testing
 multi_host network
-multi_instance_display_name_template
+multi_instance_display_name_template api
 my_ip common
-name
+name cells
 net_config_template baremetal
 network_api_class network
 network_device_mtu network
@@ -277,30 +277,30 @@ network_manager network
 network_size network
 network_topic network
 networks_path network
-non_inheritable_image_properties
-notification_driver
-notification_topics
-notify_api_faults
-notify_on_any_change
-notify_on_state_change
+non_inheritable_image_properties api
+notification_driver common
+notification_topics common
+notify_api_faults common
+notify_on_any_change common
+notify_on_state_change common
 novncproxy_base_url vnc
-null_kernel
+null_kernel api
 num_networks network
-os_region_name
-osapi_compute_ext_list
-osapi_compute_extension
-osapi_compute_link_prefix
-osapi_compute_listen
-osapi_compute_listen_port
-osapi_compute_unique_server_name_scope
-osapi_compute_workers
-osapi_glance_link_prefix
-osapi_hide_server_address_states
+os_region_name volumes
+osapi_compute_ext_list api
+osapi_compute_extension api
+osapi_compute_link_prefix api
+osapi_compute_listen api
+osapi_compute_listen_port api
+osapi_compute_unique_server_name_scope policy
+osapi_compute_workers api
+osapi_glance_link_prefix glance
+osapi_hide_server_address_states api
 osapi_max_limit policy
 osapi_max_request_body_size policy
 password_length policy
-periodic_enable
-periodic_fuzzy_delay
+periodic_enable periodic
+periodic_fuzzy_delay periodic
 policy_default_rule policy
 policy_file policy
 power_manager baremetal
@@ -310,7 +310,7 @@ powervm_mgr powervm
 powervm_mgr_passwd powervm
 powervm_mgr_type powervm
 powervm_mgr_user powervm
-preallocate_images
+preallocate_images hypervisor
 project_cert_subject ca
 public_interface network
 publish_errors logging
@@ -318,7 +318,7 @@ pxe_append_params baremetal
 pxe_config_template baremetal
 pxe_deploy_timeout baremetal
 pybasedir common
-qemu_img_cmd
+qemu_img_cmd hyperv
 qpid_heartbeat qpid
 qpid_hostname qpid
 qpid_hosts qpid
@@ -366,28 +366,28 @@ rabbit_retry_interval rabbitmq
 rabbit_use_ssl rabbitmq
 rabbit_userid rabbitmq
 rabbit_virtual_host rabbitmq
-ram_allocation_ratio scheduler
-ram_weight_multiplier
+ram_allocation_ratio scheduling
+ram_weight_multiplier scheduling
 reboot_timeout compute
-reclaim_instance_interval
+reclaim_instance_interval compute
 recv_timeout address
-region_list
+region_list ec2
 remove_unused_base_images hypervisor
 remove_unused_kernels hypervisor
 remove_unused_original_minimum_age_seconds hypervisor
 remove_unused_resized_minimum_age_seconds hypervisor
-report_interval
+report_interval common
 rescue_image_id hypervisor
 rescue_kernel_id hypervisor
 rescue_ramdisk_id hypervisor
 rescue_timeout compute hypervisor
 reservation_expire policy
-reserve_percent
-reserved_host_disk_mb scheduler
-reserved_host_memory_mb scheduler
+reserve_percent cells
+reserved_host_disk_mb scheduling
+reserved_host_memory_mb scheduling
 resize_confirm_window compute
-resume_guests_state_on_host_boot
-rootwrap_config
+resume_guests_state_on_host_boot compute
+rootwrap_config common
 routing_source_ip network
 rpc_backend rpc
 rpc_cast_timeout rpc
@@ -402,7 +402,7 @@ rpc_zmq_ipc_dir zeromq
 rpc_zmq_matchmaker zeromq
 rpc_zmq_port zeromq
 rpc_zmq_topic_backlog zeromq
-run_external_periodic_tasks
+run_external_periodic_tasks periodic
 running_deleted_instance_action compute
 running_deleted_instance_poll_interval compute
 running_deleted_instance_timeout compute
@@ -414,35 +414,35 @@ s3_listen_port s3
 s3_port s3
 s3_secret_key s3
 s3_use_ssl s3
-scheduler
-scheduler_available_filters scheduler
-scheduler_default_filters scheduler
-scheduler_driver scheduler
-scheduler_host_manager scheduler
-scheduler_host_subset_size scheduler
-scheduler_json_config_location scheduler
-scheduler_manager scheduler
-scheduler_max_attempts scheduler
-scheduler_retries scheduler
-scheduler_retry_delay scheduler
-scheduler_topic scheduler
-scheduler_weight_classes scheduler
-security_group_api
-security_group_handler
+scheduler cells
+scheduler_available_filters scheduling
+scheduler_default_filters scheduling
+scheduler_driver scheduling
+scheduler_host_manager scheduling
+scheduler_host_subset_size scheduling
+scheduler_json_config_location scheduling
+scheduler_manager scheduling
+scheduler_max_attempts scheduling
+scheduler_retries scheduling
+scheduler_retry_delay scheduling
+scheduler_topic scheduling
+scheduler_weight_classes scheduling
+security_group_api network
+security_group_handler network
 send_arp_for_ha network
 send_arp_for_ha_count network
 server_listen spice
 server_proxyclient_address spice
-service_down_time
-service_quantum_metadata_proxy
-servicegroup_driver
+service_down_time common
+service_quantum_metadata_proxy network
+servicegroup_driver api
 sg_prefix zookeeper
 sg_retry_interval zookeeper
 share_dhcp_address network
 snapshot_image_format hypervisor
 snapshot_name_template api
 sql_connection db
-sql_connection
+sql_connection baremetal
 sql_connection_debug db
 sql_connection_trace db
 sql_idle_timeout db
@@ -453,19 +453,19 @@ sql_min_pool_size db
 sql_retry_interval db
 sqlite_db db
 sqlite_synchronous db
-sr_matching_filter
+sr_matching_filter xen
 ssl_ca_file wsgi
 ssl_cert_file wsgi
 ssl_key_file wsgi
 state_path common
 stub_compute xen
-sync_power_state_interval
+sync_power_state_interval compute
 syslog_log_facility logging
-target_host
-target_port
-tcp_keepidle
-teardown_unused_network_gateway
-tempdir
+target_host xen
+target_port xen
+tcp_keepidle wsgi
+teardown_unused_network_gateway network
+tempdir common
 terminal baremetal
 terminal_cert_dir baremetal
 terminal_pid_dir baremetal
@@ -476,36 +476,35 @@ tile_pdu_off tilera
 tile_pdu_on tilera
 tile_pdu_status tilera
 tile_power_wait tilera
-timeout_nbd
-topic
-topic
-topics
+timeout_nbd hypervisor
+topic cells
+topic conductor
 until_refresh policy
 update_dns_entries network
-use_cow_images
+use_cow_images hypervisor
 use_forwarded_for authentication
 use_ipv6 ipv6
-use_join_force
-use_linked_clone
-use_local
-use_network_dns_servers
+use_join_force pool
+use_linked_clone vmware
+use_local conductor
+use_network_dns_servers network
 use_project_ca ca
 use_quantum_default_nets network
 use_single_default_gateway network
-use_stderr
+use_stderr logging
 use_syslog logging
-use_unsafe_iscsi
+use_unsafe_iscsi baremetal
 use_usb_tablet hypervisor
 user_cert_subject ca
-verbose
+verbose logging
 vif_driver baremetal
-virt_mkfs
-virtual_power_host_key
-virtual_power_host_pass
-virtual_power_host_user
-virtual_power_ssh_host
-virtual_power_ssh_port
-virtual_power_type
+virt_mkfs hypervisor
+virtual_power_host_key baremetal
+virtual_power_host_pass baremetal
+virtual_power_host_user baremetal
+virtual_power_ssh_host baremetal
+virtual_power_ssh_port baremetal
+virtual_power_type baremetal
 vlan_interface network
 vlan_start network
 vmwareapi_api_retry_count vmware
@@ -533,7 +532,7 @@ vpn_instance_type vpn
 vpn_ip vpn
 vpn_key_suffix vpn
 vpn_start vpn
-vswitch_name
+vswitch_name hyperv
 wsgi_log_format wsgi
 xen_hvmloader_path xen
 xenapi_agent_path xen
