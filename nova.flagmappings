@@ -1,53 +1,53 @@
-address
+address zookeeper
 agent_enabled spice
-agent_resetnetwork_timeout
-agent_timeout
-agent_version_timeout
+agent_resetnetwork_timeout xen
+agent_timeout xen
+agent_version_timeout xen
 allow_instance_snapshots policy
 allow_migrate_to_same_host policy
 allow_resize_to_same_host policy
 allow_same_net_traffic network,policy
-allowed_direct_url_schemes
+allowed_direct_url_schemes glance
 allowed_rpc_exception_modules testing
-amqp_rpc_single_reply_queue
-api_paste_config
-api_rate_limit
-attestation_api_url
-attestation_auth_blob
-attestation_auth_timeout
-attestation_port
-attestation_server
-attestation_server_ca_file
+amqp_rpc_single_reply_queue amqp
+api_paste_config wsgi
+api_rate_limit authentication
+attestation_api_url trustedcomputing
+attestation_auth_blob trustedcomputing
+attestation_auth_timeout trustedcomputing
+attestation_port trustedcomputing
+attestation_server trustedcomputing
+attestation_server_ca_file trustedcomputing
 auth_strategy authentication
 auto_assign_floating_ip network
-backdoor_port
-bandwidth_poll_interval
+backdoor_port testing
+bandwidth_poll_interval quota
 base_dir_name compute
-bindir
-block_device_creation_timeout
+bindir common
+block_device_creation_timeout volumes
 block_migration_flag hypervisor
 boot_script_template vpn
-buckets_path
+buckets_path s3
 ca_file ca
 ca_path ca
-cache_images
-call_timeout
-capabilities
-cert_manager
-cert_topic
+cache_images xen
+call_timeout cells
+capabilities cells
+cert_manager ca
+cert_topic ca
 checksum_base_images hypervisor
-checksum_interval_seconds
+checksum_interval_seconds compute
 cinder_api_insecure volumes
 cinder_catalog_info volumes
 cinder_cross_az_attach volumes
 cinder_endpoint_template volumes
 cinder_http_retries volumes
 cnt_vpn_clients network
-compute_api_class
+compute_api_class compute
 compute_driver compute
-compute_manager
-compute_stats_class
-compute_topic
+compute_manager compute
+compute_stats_class compute
+compute_topic common
 config_drive_cdrom configdrive
 config_drive_format configdrive
 config_drive_inject_password configdrive
@@ -55,10 +55,10 @@ config_drive_skip_versions configdrive
 config_drive_tempdir configdrive
 console_driver xen
 console_host compute
-console_manager
-console_public_hostname
-console_token_ttl
-console_topic
+console_manager compute
+console_public_hostname console
+console_token_ttl console
+console_topic common
 console_vmrc_error_retries xen
 console_vmrc_port xen
 console_xvp_conf xen
@@ -66,9 +66,9 @@ console_xvp_conf_template xen
 console_xvp_log xen
 console_xvp_multiplex_port xen
 console_xvp_pid xen
-consoleauth_manager
-consoleauth_topic topic
-control_exchange
+consoleauth_manager console
+consoleauth_topic common
+control_exchange rpc 
 cpu_allocation_ratio scheduler
 create_unique_mac_address_attempts network
 crl_file ca
@@ -77,17 +77,17 @@ db_backend db
 db_check_interval db
 db_driver db
 dbapi_use_tpool db
-debug
+debug logging
 default_access_ip_network_name network
-default_availability_zone
-default_ephemeral_format
+default_availability_zone availabilityzones
+default_ephemeral_format hypervisor
 default_floating_pool network
-default_instance_type
+default_instance_type compute
 default_log_levels logging
 default_notification_level compute
-default_os_type
+default_os_type xen
 default_publisher_id compute
-default_schedule_zone
+default_schedule_zone availabilityzones
 defer_iptables_apply network
 deploy_kernel baremetal
 deploy_ramdisk baremetal
@@ -95,9 +95,9 @@ dhcp_domain network
 dhcp_lease_time network
 dhcpbridge network
 dhcpbridge_flagfile network
-disable_process_locking
-disk_allocation_ratio
-disk_cachemodes
+disable_process_locking common
+disk_allocation_ratio scheduling
+disk_cachemodes hypervisor
 dmz_cidr vpn
 dmz_mask vpn
 dmz_net vpn
@@ -105,7 +105,7 @@ dns_server network
 dns_update_periodic_interval network
 dnsmasq_config_file network
 driver baremetal
-driver
+driver cells
 ec2_dmz_host ec2
 ec2_host ec2
 ec2_listen ec2
@@ -117,18 +117,18 @@ ec2_scheme ec2
 ec2_strict_validation ec2
 ec2_timestamp_expiry ec2
 ec2_workers ec2
-enable
-enable_instance_password
-enable_network_quota quot quotaa
-enable_new_services
+enable cells
+enable_instance_password compute
+enable_network_quota quota
+enable_new_services api
 enabled spice
-enabled_apis
-enabled_ssl_apis
-fake_call
-fake_network network
-fake_rabbit
-fatal_deprecations
-fatal_exception_format_errors
+enabled_apis api
+enabled_ssl_apis api
+fake_call testing
+fake_network testing
+fake_rabbit testing
+fatal_deprecations logging
+fatal_exception_format_errors logging
 firewall_driver network
 fixed_ip_disassociate_timeout network
 fixed_range network
@@ -139,49 +139,49 @@ flat_network_bridge network
 flat_network_dns network
 floating_ip_dns_manager network
 force_config_drive configdrive
-force_dhcp_release
-force_raw_images
-force_snat_range
-force_volumeutils_v1
+force_dhcp_release network
+force_raw_images hypervisor
+force_snat_range network
+force_volumeutils_v1 volumes
 forward_bridge_interface network
-fping_path
+fping_path fping
 gateway network
 gateway_v6 ipv6
-glance_api_insecure
-glance_api_servers
-glance_host
-glance_num_retries
-glance_port
-glance_protocol
+glance_api_insecure glance
+glance_api_servers glance
+glance_host glance
+glance_num_retries glance
+glance_port glance
+glance_protocol glance
 heal_instance_info_cache_interval compute
-host
+host common
 host_state_interval compute
 html5proxy_base_url spice
 image_cache_manager_interval compute
 image_decryption_dir s3
-image_info_filename_pattern
-inject_password
-injected_network_template
-injected_network_template
-instance_build_timeout
-instance_dns_domain
-instance_dns_manager
+image_info_filename_pattern compute
+inject_password hypervisor
+injected_network_template network
+injected_network_template network
+instance_build_timeout compute
+instance_dns_domain network
+instance_dns_manager network 
 instance_format logging
-instance_name_template
+instance_name_template api
 instance_type_extra_specs baremetal
-instance_update_num_instances
-instance_updated_at_threshold
-instance_usage_audit
-instance_usage_audit_period
+instance_update_num_instances cells
+instance_updated_at_threshold cells
+instance_usage_audit compute
+instance_usage_audit_period compute
 instance_uuid_format logging
 instances_path compute
-instances_path_share
-integration_bridge
-internal_service_availability_zone
+instances_path_share hyperv
+integration_bridge vmware
+internal_service_availability_zone availabilityzones
 ipmi_power_retry baremetal
-iptables_bottom_regex
-iptables_drop_action
-iptables_top_regex
+iptables_bottom_regex network
+iptables_drop_action network
+iptables_top_regex network
 ipv6_backend ipv6
 iqn_prefix
 iscsi_iqn_prefix volumes
@@ -267,7 +267,7 @@ monkey_patch
 monkey_patch_modules
 multi_host network
 multi_instance_display_name_template
-my_ip
+my_ip common
 name
 net_config_template baremetal
 network_api_class network
@@ -317,7 +317,7 @@ publish_errors logging
 pxe_append_params baremetal
 pxe_config_template baremetal
 pxe_deploy_timeout baremetal
-pybasedir
+pybasedir common
 qemu_img_cmd
 qpid_heartbeat qpid
 qpid_hostname qpid
@@ -370,7 +370,7 @@ ram_allocation_ratio scheduler
 ram_weight_multiplier
 reboot_timeout compute
 reclaim_instance_interval
-recv_timeout
+recv_timeout address
 region_list
 remove_unused_base_images hypervisor
 remove_unused_kernels hypervisor
@@ -436,11 +436,11 @@ server_proxyclient_address spice
 service_down_time
 service_quantum_metadata_proxy
 servicegroup_driver
-sg_prefix
-sg_retry_interval
+sg_prefix zookeeper
+sg_retry_interval zookeeper
 share_dhcp_address network
 snapshot_image_format hypervisor
-snapshot_name_template
+snapshot_name_template api
 sql_connection db
 sql_connection
 sql_connection_debug db
@@ -454,10 +454,10 @@ sql_retry_interval db
 sqlite_db db
 sqlite_synchronous db
 sr_matching_filter
-ssl_ca_file
-ssl_cert_file
-ssl_key_file
-state_path
+ssl_ca_file wsgi
+ssl_cert_file wsgi
+ssl_key_file wsgi
+state_path common
 stub_compute xen
 sync_power_state_interval
 syslog_log_facility logging
@@ -534,7 +534,7 @@ vpn_ip vpn
 vpn_key_suffix vpn
 vpn_start vpn
 vswitch_name
-wsgi_log_format
+wsgi_log_format wsgi
 xen_hvmloader_path xen
 xenapi_agent_path xen
 xenapi_check_host xen
