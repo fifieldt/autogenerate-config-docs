@@ -1,14 +1,14 @@
 address
-agent_enabled
+agent_enabled spice
 agent_resetnetwork_timeout
 agent_timeout
 agent_version_timeout
-allow_instance_snapshots
-allow_migrate_to_same_host
-allow_resize_to_same_host
-allow_same_net_traffic
+allow_instance_snapshots policy
+allow_migrate_to_same_host policy
+allow_resize_to_same_host policy
+allow_same_net_traffic network,policy
 allowed_direct_url_schemes
-allowed_rpc_exception_modules
+allowed_rpc_exception_modules testing
 amqp_rpc_single_reply_queue
 api_paste_config
 api_rate_limit
@@ -19,92 +19,92 @@ attestation_port
 attestation_server
 attestation_server_ca_file
 auth_strategy authentication
-auto_assign_floating_ip
+auto_assign_floating_ip network
 backdoor_port
 bandwidth_poll_interval
-base_dir_name
+base_dir_name compute
 bindir
 block_device_creation_timeout
-block_migration_flag
-boot_script_template
+block_migration_flag hypervisor
+boot_script_template vpn
 buckets_path
-ca_file
-ca_path
+ca_file ca
+ca_path ca
 cache_images
 call_timeout
 capabilities
 cert_manager
 cert_topic
-checksum_base_images
+checksum_base_images hypervisor
 checksum_interval_seconds
-cinder_api_insecure
-cinder_catalog_info
-cinder_cross_az_attach
-cinder_endpoint_template
-cinder_http_retries
-cnt_vpn_clients
+cinder_api_insecure volumes
+cinder_catalog_info volumes
+cinder_cross_az_attach volumes
+cinder_endpoint_template volumes
+cinder_http_retries volumes
+cnt_vpn_clients network
 compute_api_class
-compute_driver
+compute_driver compute
 compute_manager
 compute_stats_class
 compute_topic
-config_drive_cdrom
-config_drive_format
-config_drive_inject_password
-config_drive_skip_versions
-config_drive_tempdir
-console_driver
-console_host
+config_drive_cdrom configdrive
+config_drive_format configdrive
+config_drive_inject_password configdrive
+config_drive_skip_versions configdrive
+config_drive_tempdir configdrive
+console_driver xen
+console_host compute
 console_manager
 console_public_hostname
 console_token_ttl
 console_topic
-console_vmrc_error_retries
-console_vmrc_port
-console_xvp_conf
-console_xvp_conf_template
-console_xvp_log
-console_xvp_multiplex_port
-console_xvp_pid
+console_vmrc_error_retries xen
+console_vmrc_port xen
+console_xvp_conf xen
+console_xvp_conf_template xen
+console_xvp_log xen
+console_xvp_multiplex_port xen
+console_xvp_pid xen
 consoleauth_manager
-consoleauth_topic
+consoleauth_topic topic
 control_exchange
-cpu_allocation_ratio
-create_unique_mac_address_attempts
-crl_file
-db_backend
-db_backend
-db_check_interval
-db_driver
-dbapi_use_tpool
+cpu_allocation_ratio scheduler
+create_unique_mac_address_attempts network
+crl_file ca
+db_backend baremetal
+db_backend db
+db_check_interval db
+db_driver db
+dbapi_use_tpool db
 debug
-default_access_ip_network_name
+default_access_ip_network_name network
 default_availability_zone
 default_ephemeral_format
-default_floating_pool
+default_floating_pool network
 default_instance_type
-default_log_levels
-default_notification_level
+default_log_levels logging
+default_notification_level compute
 default_os_type
-default_publisher_id
+default_publisher_id compute
 default_schedule_zone
-defer_iptables_apply
-deploy_kernel
-deploy_ramdisk
-dhcp_domain
-dhcp_lease_time
-dhcpbridge
-dhcpbridge_flagfile
+defer_iptables_apply network
+deploy_kernel baremetal
+deploy_ramdisk baremetal
+dhcp_domain network
+dhcp_lease_time network
+dhcpbridge network
+dhcpbridge_flagfile network
 disable_process_locking
 disk_allocation_ratio
 disk_cachemodes
-dmz_cidr
-dmz_mask
-dmz_net
-dns_server
-dns_update_periodic_interval
-dnsmasq_config_file
-driver
+dmz_cidr vpn
+dmz_mask vpn
+dmz_net vpn
+dns_server network
+dns_update_periodic_interval network
+dnsmasq_config_file network
+driver baremetal
 driver
 ec2_dmz_host ec2
 ec2_host ec2
@@ -121,44 +121,44 @@ enable
 enable_instance_password
 enable_network_quota quot quotaa
 enable_new_services
-enabled
+enabled spice
 enabled_apis
 enabled_ssl_apis
 fake_call
-fake_network
+fake_network network
 fake_rabbit
 fatal_deprecations
 fatal_exception_format_errors
 firewall_driver network
 fixed_ip_disassociate_timeout network
 fixed_range network
-fixed_range_v6 network
+fixed_range_v6 ipv6
 flat_injected network
 flat_interface network
 flat_network_bridge network
 flat_network_dns network
 floating_ip_dns_manager network
-force_config_drive
+force_config_drive configdrive
 force_dhcp_release
 force_raw_images
 force_snat_range
 force_volumeutils_v1
-forward_bridge_interface
+forward_bridge_interface network
 fping_path
-gateway
-gateway_v6
+gateway network
+gateway_v6 ipv6
 glance_api_insecure
 glance_api_servers
 glance_host
 glance_num_retries
 glance_port
 glance_protocol
-heal_instance_info_cache_interval
+heal_instance_info_cache_interval compute
 host
-host_state_interval
-html5proxy_base_url
-image_cache_manager_interval
-image_decryption_dir
+host_state_interval compute
+html5proxy_base_url spice
+image_cache_manager_interval compute
+image_decryption_dir s3
 image_info_filename_pattern
 inject_password
 injected_network_template
@@ -166,31 +166,31 @@ injected_network_template
 instance_build_timeout
 instance_dns_domain
 instance_dns_manager
-instance_format
+instance_format logging
 instance_name_template
-instance_type_extra_specs
+instance_type_extra_specs baremetal
 instance_update_num_instances
 instance_updated_at_threshold
 instance_usage_audit
 instance_usage_audit_period
-instance_uuid_format
-instances_path
+instance_uuid_format logging
+instances_path compute
 instances_path_share
 integration_bridge
 internal_service_availability_zone
-ipmi_power_retry
+ipmi_power_retry baremetal
 iptables_bottom_regex
 iptables_drop_action
 iptables_top_regex
-ipv6_backend
+ipv6_backend ipv6
 iqn_prefix
-iscsi_iqn_prefix
+iscsi_iqn_prefix volumes
 isolated_hosts
 isolated_images
-key_file
-keymap
-keys_path
-keystone_ec2_url
+key_file ca
+keymap spice
+keys_path ca
+keystone_ec2_url ec2
 kombu_ssl_ca_certs
 kombu_ssl_certfile
 kombu_ssl_keyfile
@@ -206,51 +206,51 @@ ldap_dns_soa_refresh ldap
 ldap_dns_soa_retry ldap
 ldap_dns_url ldap
 ldap_dns_user ldap
-libvirt_cpu_mode
-libvirt_cpu_model
-libvirt_disk_prefix
-libvirt_images_type
-libvirt_images_volume_group
-libvirt_inject_key
-libvirt_inject_partition
-libvirt_inject_password
-libvirt_lvm_snapshot_size
-libvirt_nonblocking
-libvirt_snapshot_compression
-libvirt_snapshots_directory
-libvirt_sparse_logical_volumes
-libvirt_type
-libvirt_uri
-libvirt_vif_driver
-libvirt_volume_drivers
-libvirt_wait_soft_reboot_seconds
+libvirt_cpu_mode hypervisor
+libvirt_cpu_model hypervisor
+libvirt_disk_prefix hypervisor
+libvirt_images_type hypervisor
+libvirt_images_volume_group hypervisor
+libvirt_inject_key hypervisor
+libvirt_inject_partition hypervisor
+libvirt_inject_password hypervisor
+libvirt_lvm_snapshot_size hypervisor
+libvirt_nonblocking hypervisor
+libvirt_snapshot_compression hypervisor
+libvirt_snapshots_directory hypervisor
+libvirt_sparse_logical_volumes hypervisor
+libvirt_type hypervisor
+libvirt_uri hypervisor
+libvirt_vif_driver hypervisor
+libvirt_volume_drivers hypervisor
+libvirt_wait_soft_reboot_seconds hypervisor
 limit_cpu_features
-linuxnet_interface_driver
-linuxnet_ovs_integration_bridge
-live_migration_bandwidth
-live_migration_flag
-live_migration_retry_count
-live_migration_uri
+linuxnet_interface_driver network
+linuxnet_ovs_integration_bridge network
+live_migration_bandwidth livemigration
+live_migration_flag livemigration
+live_migration_retry_count livemigration
+live_migration_uri livemigration
 lock_path
-lockout_attempts
-lockout_minutes
-lockout_window
-log_config
-log_date_format
-log_dir
-log_file
-log_format
-logfile_mode
-logging_context_format_string
-logging_debug_format_suffix
-logging_default_format_string
-logging_exception_prefix
+lockout_attempts ec2
+lockout_minutes ec2
+lockout_window ec2
+log_config logging
+log_date_format logging
+log_dir logging
+log_file logging
+log_format logging
+logfile_mode logging
+logging_context_format_string logging
+logging_debug_format_suffix logging
+logging_default_format_string logging
+logging_exception_prefix logging
 manager
 manager
 matchmaker_heartbeat_freq
 matchmaker_heartbeat_ttl
 matchmaker_ringfile
-max_age
+max_age policy
 max_hop_count
 max_instances_per_host
 max_io_ops_per_host
@@ -265,27 +265,27 @@ metadata_workers metadata
 mkisofs_cmd
 monkey_patch
 monkey_patch_modules
-multi_host
+multi_host network
 multi_instance_display_name_template
 my_ip
 name
-net_config_template
-network_api_class
-network_device_mtu
-network_driver
-network_manager
-network_size
-network_topic
-networks_path
+net_config_template baremetal
+network_api_class network
+network_device_mtu network
+network_driver network
+network_manager network
+network_size network
+network_topic network
+networks_path network
 non_inheritable_image_properties
 notification_driver
 notification_topics
 notify_api_faults
 notify_on_any_change
 notify_on_state_change
-novncproxy_base_url
+novncproxy_base_url vnc
 null_kernel
-num_networks
+num_networks network
 os_region_name
 osapi_compute_ext_list
 osapi_compute_extension
@@ -296,14 +296,14 @@ osapi_compute_unique_server_name_scope
 osapi_compute_workers
 osapi_glance_link_prefix
 osapi_hide_server_address_states
-osapi_max_limit
-osapi_max_request_body_size
-password_length
+osapi_max_limit policy
+osapi_max_request_body_size policy
+password_length policy
 periodic_enable
 periodic_fuzzy_delay
-policy_default_rule
-policy_file
-power_manager
+policy_default_rule policy
+policy_file policy
+power_manager baremetal
 powervm_img_local_path powervm
 powervm_img_remote_path powervm
 powervm_mgr powervm
@@ -311,12 +311,12 @@ powervm_mgr_passwd powervm
 powervm_mgr_type powervm
 powervm_mgr_user powervm
 preallocate_images
-project_cert_subject
-public_interface
-publish_errors
-pxe_append_params
-pxe_config_template
-pxe_deploy_timeout
+project_cert_subject ca
+public_interface network
+publish_errors logging
+pxe_append_params baremetal
+pxe_config_template baremetal
+pxe_deploy_timeout baremetal
 pybasedir
 qemu_img_cmd
 qpid_heartbeat qpid
@@ -366,35 +366,35 @@ rabbit_retry_interval rabbitmq
 rabbit_use_ssl rabbitmq
 rabbit_userid rabbitmq
 rabbit_virtual_host rabbitmq
-ram_allocation_ratio
+ram_allocation_ratio scheduler
 ram_weight_multiplier
-reboot_timeout
+reboot_timeout compute
 reclaim_instance_interval
 recv_timeout
 region_list
-remove_unused_base_images
-remove_unused_kernels
-remove_unused_original_minimum_age_seconds
-remove_unused_resized_minimum_age_seconds
+remove_unused_base_images hypervisor
+remove_unused_kernels hypervisor
+remove_unused_original_minimum_age_seconds hypervisor
+remove_unused_resized_minimum_age_seconds hypervisor
 report_interval
-rescue_image_id
-rescue_kernel_id
-rescue_ramdisk_id
-rescue_timeout
-reservation_expire
+rescue_image_id hypervisor
+rescue_kernel_id hypervisor
+rescue_ramdisk_id hypervisor
+rescue_timeout compute hypervisor
+reservation_expire policy
 reserve_percent
-reserved_host_disk_mb
-reserved_host_memory_mb
-resize_confirm_window
+reserved_host_disk_mb scheduler
+reserved_host_memory_mb scheduler
+resize_confirm_window compute
 resume_guests_state_on_host_boot
 rootwrap_config
-routing_source_ip
-rpc_backend
-rpc_cast_timeout
-rpc_conn_pool_size
-rpc_driver_queue_base
-rpc_response_timeout
-rpc_thread_pool_size
+routing_source_ip network
+rpc_backend rpc
+rpc_cast_timeout rpc
+rpc_conn_pool_size rpc
+rpc_driver_queue_base rpc
+rpc_response_timeout rpc
+rpc_thread_pool_size rpc
 rpc_zmq_bind_address zeromq
 rpc_zmq_contexts zeromq
 rpc_zmq_host zeromq
@@ -403,9 +403,9 @@ rpc_zmq_matchmaker zeromq
 rpc_zmq_port zeromq
 rpc_zmq_topic_backlog zeromq
 run_external_periodic_tasks
-running_deleted_instance_action
-running_deleted_instance_poll_interval
-running_deleted_instance_timeout
+running_deleted_instance_action compute
+running_deleted_instance_poll_interval compute
+running_deleted_instance_timeout compute
 s3_access_key s3
 s3_affix_tenant s3
 s3_host s3
@@ -415,61 +415,61 @@ s3_port s3
 s3_secret_key s3
 s3_use_ssl s3
 scheduler
-scheduler_available_filters
-scheduler_default_filters
-scheduler_driver
-scheduler_host_manager
-scheduler_host_subset_size
-scheduler_json_config_location
-scheduler_manager
-scheduler_max_attempts
-scheduler_retries
-scheduler_retry_delay
-scheduler_topic
-scheduler_weight_classes
+scheduler_available_filters scheduler
+scheduler_default_filters scheduler
+scheduler_driver scheduler
+scheduler_host_manager scheduler
+scheduler_host_subset_size scheduler
+scheduler_json_config_location scheduler
+scheduler_manager scheduler
+scheduler_max_attempts scheduler
+scheduler_retries scheduler
+scheduler_retry_delay scheduler
+scheduler_topic scheduler
+scheduler_weight_classes scheduler
 security_group_api
 security_group_handler
-send_arp_for_ha
-send_arp_for_ha_count
-server_listen
-server_proxyclient_address
+send_arp_for_ha network
+send_arp_for_ha_count network
+server_listen spice
+server_proxyclient_address spice
 service_down_time
 service_quantum_metadata_proxy
 servicegroup_driver
 sg_prefix
 sg_retry_interval
-share_dhcp_address
-snapshot_image_format
+share_dhcp_address network
+snapshot_image_format hypervisor
 snapshot_name_template
+sql_connection db
 sql_connection
-sql_connection
-sql_connection_debug
-sql_connection_trace
-sql_idle_timeout
-sql_max_overflow
-sql_max_pool_size
-sql_max_retries
-sql_min_pool_size
-sql_retry_interval
-sqlite_db
-sqlite_synchronous
+sql_connection_debug db
+sql_connection_trace db
+sql_idle_timeout db
+sql_max_overflow db
+sql_max_pool_size db
+sql_max_retries db
+sql_min_pool_size db
+sql_retry_interval db
+sqlite_db db
+sqlite_synchronous db
 sr_matching_filter
 ssl_ca_file
 ssl_cert_file
 ssl_key_file
 state_path
-stub_compute
+stub_compute xen
 sync_power_state_interval
-syslog_log_facility
+syslog_log_facility logging
 target_host
 target_port
 tcp_keepidle
 teardown_unused_network_gateway
 tempdir
-terminal
-terminal_cert_dir
-terminal_pid_dir
-tftp_root
+terminal baremetal
+terminal_cert_dir baremetal
+terminal_pid_dir baremetal
+tftp_root baremetal
 tile_pdu_ip tilera
 tile_pdu_mgr tilera
 tile_pdu_off tilera
@@ -480,25 +480,25 @@ timeout_nbd
 topic
 topic
 topics
-until_refresh
+until_refresh policy
 update_dns_entries network
 use_cow_images
-use_forwarded_for
-use_ipv6
+use_forwarded_for authentication
+use_ipv6 ipv6
 use_join_force
 use_linked_clone
 use_local
 use_network_dns_servers
-use_project_ca
+use_project_ca ca
 use_quantum_default_nets network
-use_single_default_gateway
+use_single_default_gateway network
 use_stderr
-use_syslog
+use_syslog logging
 use_unsafe_iscsi
-use_usb_tablet
-user_cert_subject
+use_usb_tablet hypervisor
+user_cert_subject ca
 verbose
-vif_driver
+vif_driver baremetal
 virt_mkfs
 virtual_power_host_key
 virtual_power_host_pass
