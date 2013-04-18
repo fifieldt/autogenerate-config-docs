@@ -200,30 +200,30 @@ ssl_cert_file ssl
 ssl_key_file ssl
 state_path common
 supported_extension_aliases meta
-sync_data
+sync_data bigswitch
 syslog_log_facility logging
 tcp_keepidle wsgi
 tenant_network_type openvswitch
-tenant_network_type
-tenant_network_type
-topics
-topologyname
+tenant_network_type linuxbridge
+tenant_network_type hyperv
+topics rpc
+topologyname plumgrid
 tun_peer_patch_port openvswitch
 tunnel_bridge openvswitch
 tunnel_id_ranges openvswitch
-tunnel_interface
-tunnel_ip
-tunnel_key_max
-tunnel_key_min
+tunnel_interface ryu
+tunnel_ip ryu
+tunnel_key_max ryu
+tunnel_key_min ryu
 use_ssl ssl
-use_ssl
+use_ssl nec
 use_stderr logging
 use_syslog logging
 username brocade
-username
-username
+username plumgrid
+username midonet
 verbose logging
-vlan_end
-vlan_name_prefix
-vlan_start
-vswitch_plugin
+vlan_end cisco
+vlan_name_prefix cisco
+vlan_start cisco
+vswitch_plugin cisco
