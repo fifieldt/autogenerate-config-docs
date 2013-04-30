@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 #
 # A collection of tools for working with flags from OpenStack
 # packages and documentation.
