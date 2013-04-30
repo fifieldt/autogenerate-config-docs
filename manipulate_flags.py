@@ -89,7 +89,7 @@ def write_flags(filepath, flags, name_only=True):
     help text and default values.
     """
     with open(os.path.expanduser(filepath), 'wb') as f:
-        if not names_only:
+        if not name_only:
             f.write("{|\n")  # start table
             # print headers
             f.write("!")
@@ -100,7 +100,7 @@ def write_flags(filepath, flags, name_only=True):
             opt = value['opt']
             if not opt.help:
                 opt.help = "No help text available for this option"
-            if not names_only:
+            if not name_only:
                 f.write("|")
                 f.write("||".join([name,
                                     str(opt.default),
@@ -109,7 +109,7 @@ def write_flags(filepath, flags, name_only=True):
             else:
                 f.write(name + "\n")
 
-        if not names_only:
+        if not name_only:
             f.write("|}\n")  # end table
 
 
