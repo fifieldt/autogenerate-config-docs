@@ -165,7 +165,7 @@ def main(group_file, repo_location, package_name):
 if  __name__ == "__main__":
     if len(sys.argv) != 4:
         print "Usage: %s <groups file> <repo loc> <pkg name>" % sys.argv[0]
-        print "Generate a list of all flags for package and prints them in a\
+        print "Generate a list of all flags for package and prints them in a\n
                docbook table format, grouped by the groups in the groups file."
         sys.exit(1)
     main(sys.argv[1], sys.argv[2], sys.argv[3])
