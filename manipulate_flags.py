@@ -15,6 +15,7 @@ import os
 import sys
 import pkgutil
 import glob
+
 from collections import defaultdict
 
 # this is for the internationalisation function in gettext
@@ -84,7 +85,7 @@ def write_flags(filepath, flags, name_only=True):
     """
     write out the list of flags in the cfg.CONF object to filepath
     if name_only is True - write only a list of names, one per line,
-    otherwise use MediaWiki syntax to wwrite out the full table with
+    otherwise use MediaWiki syntax to write out the full table with
     help text and default values.
     """
     with open(os.path.expanduser(filepath), 'wb') as f:
@@ -164,8 +165,8 @@ def main(group_file, repo_location, package_name):
 
 if  __name__ == "__main__":
     if len(sys.argv) != 4:
-        print "Usage: %s <groups file> <repo loc> <pkg name>" % sys.argv[0]
-        print "Generate a list of all flags for package and prints them in a\n" \
-              "docbook table format, grouped by the groups in the groups file."
+        print "\nUsage: %s <groups file> <source loc> <pkg name>" % sys.argv[0]
+        print "\nGenerate a list of all flags for package and prints them in a\n" \
+              "docbook table format, grouped by the groups in the groups file.\n"
         sys.exit(1)
     main(sys.argv[1], sys.argv[2], sys.argv[3])

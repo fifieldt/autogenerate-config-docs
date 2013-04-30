@@ -1,4 +1,4 @@
 autogenerate-config-docs
 ========================
 
-Automatically generate configuration tables to document OpenStack
+Automatically generate configuration tables to document OpenStack.
