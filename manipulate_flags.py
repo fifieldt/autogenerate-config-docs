@@ -4,7 +4,7 @@
 # packages and documentation.
 #
 # Example running:
-#  python manipulate_flags.py glance.flagmappings ~/temp/glance glance
+#  python manipulate_flags.py glance.flagmappings ~/temp/glance
 #
 # TODO - make some methods for updating the groups files if options are
 #  added or removed, and alerting the user - as these are currently
@@ -16,6 +16,7 @@ import sys
 import pkgutil
 import glob
 
+from git import *
 from collections import defaultdict
 
 # this is for the internationalisation function in gettext
@@ -23,7 +24,6 @@ import __builtin__
 __builtin__.__dict__['_'] = lambda x: x
 
 from oslo.config import cfg
-
 
 def populate_groups(filepath):
     """
@@ -147,9 +147,12 @@ def write_docbook(directory, flags, groups):
         </para>'
 
 
-def main(group_file, repo_location, package_name):
+def main(group_file, repo_location):
+    repo = Repo(repo_location)
+    assert repo.bare == False
+    package_name = os.path.basename(repo.remotes.origin.url).rstrip('.git')
+
     sys.path.append(repo_location)
-    #FIXME we can automatically determine the package name using git
     try:
         __import__(package_name)
     except ImportError as e:
@@ -164,9 +167,10 @@ def main(group_file, repo_location, package_name):
     sys.exit(0)
 
 if  __name__ == "__main__":
-    if len(sys.argv) != 4:
-        print "\nUsage: %s <groups file> <source loc> <pkg name>" % sys.argv[0]
+    if len(sys.argv) != 3:
+        print "\nUsage: %s <groups file> <source loc>" % sys.argv[0]
         print "\nGenerate a list of all flags for package and prints them in a\n" \
               "docbook table format, grouped by the groups in the groups file.\n"
         sys.exit(1)
-    main(sys.argv[1], sys.argv[2], sys.argv[3])
+
+    main(sys.argv[1], sys.argv[2])
