@@ -105,7 +105,7 @@ s3_store_secret_key s3
 scrub_time imagecache
 scrubber_datadir imagecache
 show_image_direct_url common
-sql_connection common db
+sql_connection db
 sql_idle_timeout db
 sql_max_retries db
 sql_retry_interval db

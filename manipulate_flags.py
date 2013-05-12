@@ -113,16 +113,17 @@ def write_flags(filepath, flags, name_only=True):
             f.write("|}\n")  # end table
 
 
-def write_docbook(directory, flags, groups):
+def write_docbook(directory, flags, groups, package_name):
     """
     Prints a docbook-formatted table for every group of options.
     """
     count = 0
     for group in groups.items():
-        print '<?xml version="1.0" encoding="UTF-8"?>\n\
+        groups_file = open(package_name + '-' + group[0] + '.xml' , 'w')
+        groups_file.write('<?xml version="1.0" encoding="UTF-8"?>\n\
         <para xmlns="http://docbook.org/ns/docbook" version="5.0">\n\
         <table rules="all">\n\
-          <caption>Description of configuration options for\n' + group[0] +\
+          <caption>Description of configuration options for' + group[0] +\
           '</caption>\n\
            <col width="50%"/>\n\
            <col width="50%"/>\n\
@@ -132,19 +133,20 @@ def write_docbook(directory, flags, groups):
                   <td>(Type) Description</td>\n\
               </tr>\n\
           </thead>\n\
-          <tbody>'
+          <tbody>')
         for flag_name in group[1]:
             for flag in flags:
                 if flag[0] == flag_name:
                     count = count + 1
                     opt = flag[1]["opt"]
-                    print '                <tr>\n\
+                    groups_file.write('\n              <tr>\n\
                        <td>' + flag_name + '=' + str(opt.default) + '</td>\n\
                        <td>(' + type(opt).__name__ + ')' + opt.help + '</td>\n\
-                  </tr>'
-        print '       </tbody>\n\
+              </tr>')
+        groups_file.write('\n       </tbody>\n\
         </table>\n\
-        </para>'
+        </para>')
+        groups_file.close()
 
 
 def main(group_file, repo_location):
@@ -163,7 +165,7 @@ def main(group_file, repo_location):
     print "%s groups" % len(groups)
     flags = extract_flags(repo_location, package_name)
     print "%s flags" % len(flags)
-    write_docbook('.', flags, groups)
+    write_docbook('.', flags, groups, package_name)
     sys.exit(0)
 
 if  __name__ == "__main__":
