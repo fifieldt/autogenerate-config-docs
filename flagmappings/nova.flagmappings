@@ -9,7 +9,7 @@ allow_resize_to_same_host policy
 allow_same_net_traffic network,policy
 allowed_direct_url_schemes glance
 allowed_rpc_exception_modules testing
-amqp_rpc_single_reply_queue amqp
+amqp_rpc_single_reply_queue rpc
 api_paste_config wsgi
 api_rate_limit authentication
 attestation_api_url trustedcomputing
@@ -370,7 +370,7 @@ ram_allocation_ratio scheduling
 ram_weight_multiplier scheduling
 reboot_timeout compute
 reclaim_instance_interval compute
-recv_timeout address
+recv_timeout zookeeper
 region_list ec2
 remove_unused_base_images hypervisor
 remove_unused_kernels hypervisor

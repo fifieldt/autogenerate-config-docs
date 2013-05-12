@@ -49,7 +49,7 @@ def extract_flags(repo_location, module_name, names_only=True):
     for root, dirs, files in os.walk(module_location + '/' + module_name):
         for name in dirs:
             abs_path = os.path.join(root.split(module_location)[1][1:], name)
-            if '/tests' not in abs_path and '/locale' not in abs_path:
+            if '/tests' not in abs_path and '/locale' not in abs_path and '/cmd' not in abs_path:
                 usable_dirs.append(os.path.join(root.split(module_location)[1][1:], name))
 
     for directory in usable_dirs:
@@ -123,7 +123,7 @@ def write_docbook(directory, flags, groups, package_name):
         groups_file.write('<?xml version="1.0" encoding="UTF-8"?>\n\
         <para xmlns="http://docbook.org/ns/docbook" version="5.0">\n\
         <table rules="all">\n\
-          <caption>Description of configuration options for' + group[0] +\
+          <caption>Description of configuration options for ' + group[0] +\
           '</caption>\n\
            <col width="50%"/>\n\
            <col width="50%"/>\n\
