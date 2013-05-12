@@ -19,6 +19,9 @@ import glob
 from git import *
 from collections import defaultdict
 
+
+from xml.sax.saxutils import escape
+
 # this is for the internationalisation function in gettext
 import __builtin__
 __builtin__.__dict__['_'] = lambda x: x
@@ -141,7 +144,7 @@ def write_docbook(directory, flags, groups, package_name):
                     opt = flag[1]["opt"]
                     groups_file.write('\n              <tr>\n\
                        <td>' + flag_name + '=' + str(opt.default) + '</td>\n\
-                       <td>(' + type(opt).__name__ + ')' + opt.help + '</td>\n\
+                       <td>(' + type(opt).__name__ + ')' + escape(opt.help) + '</td>\n\
               </tr>')
         groups_file.write('\n       </tbody>\n\
         </table>\n\
