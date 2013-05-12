@@ -28,6 +28,7 @@ __builtin__.__dict__['_'] = lambda x: x
 
 from oslo.config import cfg
 
+
 def populate_groups(filepath):
     """
     Takes a file formatted with lines of config option and group
@@ -106,7 +107,7 @@ def write_flags(filepath, flags, name_only=True):
             if not name_only:
                 f.write("|")
                 f.write("||".join([name,
-                                    str(opt.default),
+                                   str(opt.default),
                                    opt.help.replace("\n", " ")]))
                 f.write("\n|-\n")
             else:
@@ -122,12 +123,12 @@ def write_docbook(directory, flags, groups, package_name):
     """
     count = 0
     for group in groups.items():
-        groups_file = open(package_name + '-' + group[0] + '.xml' , 'w')
+        groups_file = open(package_name + '-' + group[0] + '.xml', 'w')
         groups_file.write('<?xml version="1.0" encoding="UTF-8"?>\n\
         <para xmlns="http://docbook.org/ns/docbook" version="5.0">\n\
         <table rules="all">\n\
-          <caption>Description of configuration options for ' + group[0] +\
-          '</caption>\n\
+          <caption>Description of configuration options for ' + group[0] +
+                          '</caption>\n\
            <col width="50%"/>\n\
            <col width="50%"/>\n\
            <thead>\n\
@@ -154,7 +155,7 @@ def write_docbook(directory, flags, groups, package_name):
 
 def main(group_file, repo_location):
     repo = Repo(repo_location)
-    assert repo.bare == False
+    assert repo.bare is False
     package_name = os.path.basename(repo.remotes.origin.url).rstrip('.git')
 
     sys.path.append(repo_location)
