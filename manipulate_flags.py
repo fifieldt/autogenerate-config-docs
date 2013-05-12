@@ -28,6 +28,7 @@ __builtin__.__dict__['_'] = lambda x: x
 
 from oslo.config import cfg
 
+
 def populate_groups(filepath):
     """
     Takes a file formatted with lines of config option and group
@@ -52,7 +53,8 @@ def extract_flags(repo_location, module_name, names_only=True):
     for root, dirs, files in os.walk(module_location + '/' + module_name):
         for name in dirs:
             abs_path = os.path.join(root.split(module_location)[1][1:], name)
-            if '/tests' not in abs_path and '/locale' not in abs_path and '/cmd' not in abs_path:
+            if ('/tests' not in abs_path and '/locale' not in abs_path and
+            '/cmd' not in abs_path and '/db/migration' not in abs_path):
                 usable_dirs.append(os.path.join(root.split(module_location)[1][1:], name))
 
     for directory in usable_dirs:
@@ -106,7 +108,7 @@ def write_flags(filepath, flags, name_only=True):
             if not name_only:
                 f.write("|")
                 f.write("||".join([name,
-                                    str(opt.default),
+                                   str(opt.default),
                                    opt.help.replace("\n", " ")]))
                 f.write("\n|-\n")
             else:
@@ -122,12 +124,12 @@ def write_docbook(directory, flags, groups, package_name):
     """
     count = 0
     for group in groups.items():
-        groups_file = open(package_name + '-' + group[0] + '.xml' , 'w')
+        groups_file = open(package_name + '-' + group[0] + '.xml', 'w')
         groups_file.write('<?xml version="1.0" encoding="UTF-8"?>\n\
         <para xmlns="http://docbook.org/ns/docbook" version="5.0">\n\
         <table rules="all">\n\
-          <caption>Description of configuration options for ' + group[0] +\
-          '</caption>\n\
+          <caption>Description of configuration options for ' + group[0] +
+                          '</caption>\n\
            <col width="50%"/>\n\
            <col width="50%"/>\n\
            <thead>\n\
@@ -142,6 +144,8 @@ def write_docbook(directory, flags, groups, package_name):
                 if flag[0] == flag_name:
                     count = count + 1
                     opt = flag[1]["opt"]
+                    if not opt.help:
+                        opt.help = "No help text available for this option"
                     groups_file.write('\n              <tr>\n\
                        <td>' + flag_name + '=' + str(opt.default) + '</td>\n\
                        <td>(' + type(opt).__name__ + ')' + escape(opt.help) + '</td>\n\
@@ -152,9 +156,9 @@ def write_docbook(directory, flags, groups, package_name):
         groups_file.close()
 
 
-def main(group_file, repo_location):
+def main(action, group_file, repo_location):
     repo = Repo(repo_location)
-    assert repo.bare == False
+    assert repo.bare is False
     package_name = os.path.basename(repo.remotes.origin.url).rstrip('.git')
 
     sys.path.append(repo_location)
@@ -164,18 +168,29 @@ def main(group_file, repo_location):
         print str(e)
         print "Failed to import: %s (%s)" % (package_name, e)
 
-    groups = populate_groups(group_file)
-    print "%s groups" % len(groups)
     flags = extract_flags(repo_location, package_name)
     print "%s flags" % len(flags)
-    write_docbook('.', flags, groups, package_name)
+
+    if action == "names":
+        write_flags(group_file, flags, name_only=True)
+
+    if action == "docbook":
+        groups = populate_groups(group_file)
+        print "%s groups" % len(groups)
+        write_docbook('.', flags, groups, package_name)
     sys.exit(0)
 
 if  __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print "\nUsage: %s <groups file> <source loc>" % sys.argv[0]
-        print "\nGenerate a list of all flags for package and prints them in a\n" \
-              "docbook table format, grouped by the groups in the groups file.\n"
+    if (len(sys.argv) != 4 or
+    (sys.argv[1] != 'docbook' and sys.argv[1] != 'names')):
+        print "\nUsage: %s docbook <groups file> <source loc>" % sys.argv[0]
+        print "\nGenerate a list of all flags for package in source loc and"\
+              "\nwrites them in a docbook table format, grouped by the groups"\
+              "\nin the groups file, one file per group .\n"
+        print "\n       %s names <names file> <source loc>" % sys.argv[0]
+        print "\nGenerate a list of all flags names for the package in"\
+              "\nsource loc and writes them to names file, one per line \n"
+
         sys.exit(1)
 
-    main(sys.argv[1], sys.argv[2])
+    main(sys.argv[1], sys.argv[2], sys.argv[3])

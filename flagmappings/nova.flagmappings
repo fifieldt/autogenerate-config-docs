@@ -6,7 +6,7 @@ agent_version_timeout xen
 allow_instance_snapshots policy
 allow_migrate_to_same_host policy
 allow_resize_to_same_host policy
-allow_same_net_traffic network,policy
+allow_same_net_traffic network
 allowed_direct_url_schemes glance
 allowed_rpc_exception_modules testing
 amqp_rpc_single_reply_queue rpc
@@ -380,7 +380,7 @@ report_interval common
 rescue_image_id hypervisor
 rescue_kernel_id hypervisor
 rescue_ramdisk_id hypervisor
-rescue_timeout compute hypervisor
+rescue_timeout hypervisor
 reservation_expire policy
 reserve_percent cells
 reserved_host_disk_mb scheduling
@@ -482,9 +482,9 @@ topic conductor
 until_refresh policy
 update_dns_entries network
 use_cow_images hypervisor
-use_forwarded_for authentication
+use_forwarded_for api
 use_ipv6 ipv6
-use_join_force pool
+use_join_force xen
 use_linked_clone vmware
 use_local conductor
 use_network_dns_servers network
@@ -527,7 +527,7 @@ volume_attach_retry_count volumes
 volume_attach_retry_interval volumes
 volume_driver volumes
 volume_usage_poll_interval volumes
-vpn_image_id vpn vpn
+vpn_image_id vpn
 vpn_instance_type vpn
 vpn_ip vpn
 vpn_key_suffix vpn

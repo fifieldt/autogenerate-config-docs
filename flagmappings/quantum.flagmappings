@@ -3,7 +3,7 @@ address brocade
 admin_password common
 admin_tenant_name common
 admin_user common
-agent_down_time agents
+agent_down_time agent
 allow_bulk api
 allow_overlapping_ips policy
 allow_pagination api
@@ -86,7 +86,7 @@ max_lp_per_overlay_ls nicira
 max_networks cisco
 max_port_profiles cisco
 max_ports cisco
-max_routes quota
+max_routes quotas
 max_subnet_host_routes common
 metadata_dhcp_host_route nicira
 metadata_mode nicira
