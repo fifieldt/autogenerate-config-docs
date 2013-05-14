@@ -3,7 +3,7 @@ autogenerate-config-docs
 
 Automatically generate configuration tables to document OpenStack.
 
-Dependencies: python-git
+Dependencies: python-git (version: 0.3.2 RC1)
 
 This tool is divided into three parts:
 
