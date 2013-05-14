@@ -14,8 +14,6 @@
 import os
 import sys
 
-from git import *
-
 # this is for the internationalisation function in gettext
 import __builtin__
 __builtin__.__dict__['_'] = lambda x: x

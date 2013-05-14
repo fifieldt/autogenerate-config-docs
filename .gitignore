@@ -1,2 +1,9 @@
-common.pyc
-autohelp.pyc
+*.DS_Store
+*.egg*
+*.log
+*.mo
+*.pyc
+*.swo
+*.swp
+*.sqlite
+*~

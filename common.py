@@ -11,6 +11,8 @@ from collections import defaultdict
 
 from xml.sax.saxutils import escape
 
+from git import Repo
+
 # gettext internationalisation function requisite:
 import __builtin__
 __builtin__.__dict__['_'] = lambda x: x
@@ -29,7 +31,6 @@ def git_check(repo_path):
         print "\nThere is a problem verifying that the directory passed in"
         print "is a valid git repoistory.  Please try again.\n"
         sys.exit(1)
-    #print package_name
     return package_name
 
 def populate_groups(filepath):
