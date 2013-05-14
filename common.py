@@ -19,8 +19,18 @@ from oslo.config import cfg
 
 def git_check(repo_path):
     """
+    Check a passed directory to verify it is a valid git repository.
     """
-    pass
+    try:
+        repo = Repo(repo_path)
+        assert repo.bare is False
+        package_name = os.path.basename(repo.remotes.origin.url).rstrip('.git')
+    except:
+        print "\nThere is a problem verifying that the directory passed in"
+        print "is a valid git repoistory.  Please try again.\n"
+        sys.exit(1)
+    #print package_name
+    return package_name
 
 def populate_groups(filepath):
     """
@@ -203,7 +213,7 @@ def usage():
         print "\nUsage: %s docbook <groups file> <source loc>" % sys.argv[0]
         print "\nGenerate a list of all flags for package in source loc and"\
               "\nwrites them in a docbook table format, grouped by the groups"\
-              "\nin the groups file, one file per group .\n"
+              "\nin the groups file, one file per group.\n"
         print "\n       %s names <names file> <source loc>" % sys.argv[0]
         print "\nGenerate a list of all flags names for the package in"\
               "\nsource loc and writes them to names file, one per line \n"

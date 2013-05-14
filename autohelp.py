@@ -23,9 +23,7 @@ __builtin__.__dict__['_'] = lambda x: x
 import common
 
 def main(action, group_file, repo_location):
-    repo = Repo(repo_location)
-    assert repo.bare is False
-    package_name = os.path.basename(repo.remotes.origin.url).rstrip('.git')
+    package_name = common.git_check(repo_location)
 
     sys.path.append(repo_location)
     try:
