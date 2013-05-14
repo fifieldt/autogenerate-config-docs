@@ -2,6 +2,8 @@
 # A collection of shared functions for managing help flag mapping files.
 #
 
+import os
+import sys
 import pkgutil
 import glob
 
