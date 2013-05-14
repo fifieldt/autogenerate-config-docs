@@ -2,8 +2,6 @@
 # A collection of shared functions for managing help flag mapping files.
 #
 
-import sys
-import os
 import pkgutil
 import glob
 
@@ -11,10 +9,9 @@ from collections import defaultdict
 
 from xml.sax.saxutils import escape
 
-# this is for the internationalisation function in gettext
+# gettext internationalisation function requisite:
 import __builtin__
 __builtin__.__dict__['_'] = lambda x: x
-
 
 from oslo.config import cfg
 
