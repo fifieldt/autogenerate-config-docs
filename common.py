@@ -8,16 +8,13 @@ import pkgutil
 import glob
 
 from collections import defaultdict
-
 from xml.sax.saxutils import escape
-
 from git import Repo
+from oslo.config import cfg
 
 # gettext internationalisation function requisite:
 import __builtin__
 __builtin__.__dict__['_'] = lambda x: x
-
-from oslo.config import cfg
 
 def git_check(repo_path):
     """
