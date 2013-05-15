@@ -9,7 +9,6 @@ import glob
 
 from collections import defaultdict
 from xml.sax.saxutils import escape
-from git import Repo
 from oslo.config import cfg
 
 # gettext internationalisation function requisite:
@@ -17,6 +16,7 @@ import __builtin__
 __builtin__.__dict__['_'] = lambda x: x
 
 def git_check(repo_path):
+    from git import Repo
     """
     Check a passed directory to verify it is a valid git repository.
     """
@@ -215,3 +215,37 @@ def usage():
         print "\n       %s names <names file> <source loc>" % sys.argv[0]
         print "\nGenerate a list of all flags names for the package in"\
               "\nsource loc and writes them to names file, one per line \n"
+
+def parse_me_args():
+    import argparse
+    parser = argparse.ArgumentParser(
+        description='Manage flag files, to in turn aid in updating documentation.',
+        epilog='Example: %(prog)s -a create -f ./nova.flagfile -o docbook -p /opt/git/openstack/nova',
+        usage='%(prog)s [options]'
+    )
+    parser.add_argument('-a', '--action',
+        choices=['create', 'update', 'verify'],
+        dest='action',
+        help='specify action to take (options: create, update, verify)',
+        required=False,
+        type=str,
+    )
+    parser.add_argument('-in', '--input',
+        dest='file',
+        help='flag file being worked with in some way',
+        required=False,
+        type=file,
+    )
+    parser.add_argument('-f', '-fmt', '--format',
+        dest='format',
+        help='flag file output format (options: docbook, names)',
+        required=False,
+        type=str,
+    )
+    parser.add_argument('-p', '--path',
+        dest='repo',
+        help='path to valid git repository',
+        required=True,
+        type=dir,
+    )
+    args = parser.parse_args()

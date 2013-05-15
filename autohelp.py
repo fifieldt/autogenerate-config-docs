@@ -4,7 +4,7 @@
 # packages and documentation.
 #
 # Example running:
-#  python manipulate_flags.py glance.flagmappings ~/temp/glance
+#  python autohelp.py glance.flagmappings ~/temp/glance
 #
 # TODO - make some methods for updating the groups files if options are
 #  added or removed, and alerting the user - as these are currently
@@ -13,6 +13,7 @@
 
 import os
 import sys
+#import argparse
 
 # this is for the internationalisation function in gettext
 import __builtin__
@@ -43,9 +44,12 @@ def main(action, group_file, repo_location):
     sys.exit(0)
 
 if  __name__ == "__main__":
-    if (len(sys.argv) != 4 or
-    (sys.argv[1] != 'docbook' and sys.argv[1] != 'names')):
-        common.usage()
-        sys.exit(1)
+    common.parse_me_args()
 
-    main(sys.argv[1], sys.argv[2], sys.argv[3])
+#    if (len(sys.argv) != 4 or
+#    (sys.argv[1] != 'docbook' and sys.argv[1] != 'names')):
+#        common.usage()
+#        sys.exit(1)
+
+#    main(sys.argv[1], sys.argv[2], sys.argv[3])
+    main()
