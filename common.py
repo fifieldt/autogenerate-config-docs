@@ -43,7 +43,7 @@ def populate_groups(filepath):
         groups[group.strip()].append(option)
     return groups
 
-def extract_flags(repo_location, module_name, names_only=True):
+def extract_flags(repo_location, module_name, verbose=0, names_only=True):
     """
     Loops through the repository, importing module by module to
     populate the configuration object (cfg.CONF) created from Oslo.
@@ -65,15 +65,19 @@ def extract_flags(repo_location, module_name, names_only=True):
         package_name = directory.replace('/', '.')
         try:
             __import__(package_name)
-            print "imported %s" % package_name
+            if verbose >= 1:
+                print "imported %s" % package_name
+
         except ImportError as e:
             """
             work around modules that don't like being imported in this way
             FIXME This could probably be better, but does not affect the
             configuration options found at this stage
             """
-            print str(e)
-            print "Failed to import: %s (%s)" % (package_name, e)
+            if verbose >= 2:
+                print str(e)
+                print "Failed to import: %s (%s)" % (package_name, e)
+
             continue
 
     flags = cfg.CONF._opts.items()
@@ -85,7 +89,7 @@ def extract_flags(repo_location, module_name, names_only=True):
 
     return flags
 
-def write_flags(filepath, flags, name_only=True):
+def write_flags(filepath, flags, name_only=True, verbose=0):
     """
     write out the list of flags in the cfg.CONF object to filepath
     if name_only is True - write only a list of names, one per line,
@@ -116,7 +120,7 @@ def write_flags(filepath, flags, name_only=True):
         if not name_only:
             f.write("|}\n")  # end table
 
-def write_docbook(directory, flags, groups, package_name):
+def write_docbook(directory, flags, groups, package_name, verbose=0):
     """
     Prints a docbook-formatted table for every group of options.
     """
@@ -220,32 +224,48 @@ def parse_me_args():
     import argparse
     parser = argparse.ArgumentParser(
         description='Manage flag files, to in turn aid in updating documentation.',
-        epilog='Example: %(prog)s -a create -f ./nova.flagfile -o docbook -p /opt/git/openstack/nova',
+        epilog='Example: %(prog)s -a create -in ./nova.flagfile -fmt docbook -p /opt/git/openstack/nova',
         usage='%(prog)s [options]'
     )
     parser.add_argument('-a', '--action',
         choices=['create', 'update', 'verify'],
         dest='action',
-        help='specify action to take (options: create, update, verify)',
-        required=False,
+        help='specify action to take (options: create, update, verify) [REQUIRED]',
+        required=True,
         type=str,
     )
-    parser.add_argument('-in', '--input',
+    # trying str data type... instead of file.
+    parser.add_argument('-i', '-in', '--input',
         dest='file',
-        help='flag file being worked with in some way',
-        required=False,
-        type=file,
+        help='flag file being worked with in some way [REQUIRED]',
+        required=True,
+        type=str,
     )
-    parser.add_argument('-f', '-fmt', '--format',
+    parser.add_argument('-f', '-fmt', '--format', '-o', '-out',
         dest='format',
         help='flag file output format (options: docbook, names)',
         required=False,
         type=str,
     )
+    # ..tried having 'dir' here for the type, but the git.Repo function
+    # requires a string is passed to it.. a directory won't work.
     parser.add_argument('-p', '--path',
         dest='repo',
-        help='path to valid git repository',
+        help='path to valid git repository [REQUIRED]',
         required=True,
-        type=dir,
+        type=str,
     )
-    args = parser.parse_args()
+#    parser.add_argument('-v', '--verbose',
+#        action='store_true',
+#        dest='verbose',
+#        help='increase verbosity/debug output',
+#        required=False,
+#    )
+    parser.add_argument('-v', '--verbose',
+        action='count',
+        default=0,
+        dest='verbose',
+        required=False,
+    )
+    args = vars(parser.parse_args())
+    return args

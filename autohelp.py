@@ -3,17 +3,11 @@
 # A collection of tools for working with flags from OpenStack
 # packages and documentation.
 #
-# Example running:
-#  python autohelp.py glance.flagmappings ~/temp/glance
-#
-# TODO - make some methods for updating the groups files if options are
-#  added or removed, and alerting the user - as these are currently
-#  manually categorized
+# For an example of usage, run this program with the -h switch.
 #
 
 import os
 import sys
-#import argparse
 
 # this is for the internationalisation function in gettext
 import __builtin__
@@ -21,35 +15,46 @@ __builtin__.__dict__['_'] = lambda x: x
 
 import common
 
-def main(action, group_file, repo_location):
-    package_name = common.git_check(repo_location)
+def main(action, file, format, repo, verbose=0):
+    package_name = common.git_check(repo)
 
-    sys.path.append(repo_location)
+    sys.path.append(repo)
     try:
         __import__(package_name)
     except ImportError as e:
-        print str(e)
-        print "Failed to import: %s (%s)" % (package_name, e)
+        if verbose >= 1:
+            print str(e)
+            print "Failed to import: %s (%s)" % (package_name, e)
 
-    flags = common.extract_flags(repo_location, package_name)
-    print "%s flags" % len(flags)
+    if verbose >= 1:
+        flags = common.extract_flags(repo, package_name, verbose)
+    else:
+        flags = common.extract_flags(repo, package_name)
 
-    if action == "names":
-        common.write_flags(group_file, flags, name_only=True)
+    print "%s flags successfully imported from package %s." % (len(flags), str(package_name))
 
-    if action == "docbook":
-        groups = common.populate_groups(group_file)
+    if format == "names":
+        if verbose >= 1:
+            common.write_flags(file, flags, True, verbose)
+        else:
+            common.write_flags(file, flags, True)
+
+    if format == "docbook":
+        groups = common.populate_groups(file)
         print "%s groups" % len(groups)
-        common.write_docbook('.', flags, groups, package_name)
+        if verbose >= 1:
+            common.write_docbook('.', flags, groups, package_name, verbose)
+        else:
+            common.write_docbook('.', flags, groups, package_name)
+
     sys.exit(0)
 
 if  __name__ == "__main__":
-    common.parse_me_args()
+    args = common.parse_me_args()
 
-#    if (len(sys.argv) != 4 or
-#    (sys.argv[1] != 'docbook' and sys.argv[1] != 'names')):
-#        common.usage()
-#        sys.exit(1)
-
-#    main(sys.argv[1], sys.argv[2], sys.argv[3])
-    main()
+    main(args['action'],
+        args['file'],
+        args['format'],
+        args['repo'],
+        args['verbose']
+    )
