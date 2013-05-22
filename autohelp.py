@@ -15,7 +15,7 @@ __builtin__.__dict__['_'] = lambda x: x
 
 import common
 
-def main(action, file, format, repo, verbose=0):
+def main(action, file, format, repo, verbose=0, name=False, test=False):
     package_name = common.git_check(repo)
 
     sys.path.append(repo)
@@ -26,26 +26,34 @@ def main(action, file, format, repo, verbose=0):
             print str(e)
             print "Failed to import: %s (%s)" % (package_name, e)
 
-    if verbose >= 1:
-        flags = common.extract_flags(repo, package_name, verbose)
+
+    if test is True:
+        #print "Test is true."
+        common.write_test(file, repo, package_name)
     else:
-        flags = common.extract_flags(repo, package_name)
+        print "Test is false."
 
-    print "%s flags successfully imported from package %s." % (len(flags), str(package_name))
-
-    if format == "names":
         if verbose >= 1:
-            common.write_flags(file, flags, True, verbose)
+            flags = common.extract_flags(repo, package_name, verbose)
         else:
-            common.write_flags(file, flags, True)
+            flags = common.extract_flags(repo, package_name)
 
-    if format == "docbook":
-        groups = common.populate_groups(file)
-        print "%s groups" % len(groups)
-        if verbose >= 1:
-            common.write_docbook('.', flags, groups, package_name, verbose)
-        else:
-            common.write_docbook('.', flags, groups, package_name)
+        print "%s flags successfully imported from package %s." % (len(flags), str(package_name))
+
+        if format == "names":
+            if verbose >= 1:
+                common.write_flags(file, flags, True, verbose)
+            else:
+                common.write_flags(file, flags, True)
+
+        if format == "docbook":
+            groups = common.populate_groups(file)
+            print "%s groups" % len(groups)
+            if verbose >= 1:
+                common.write_docbook('.', flags, groups, package_name, verbose)
+            else:
+                common.write_docbook('.', flags, groups, package_name)
+
 
     sys.exit(0)
 
@@ -56,5 +64,7 @@ if  __name__ == "__main__":
         args['file'],
         args['format'],
         args['repo'],
-        args['verbose']
+        args['verbose'],
+        args['name'],
+        args['test']
     )

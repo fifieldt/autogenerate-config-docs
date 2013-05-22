@@ -89,6 +89,102 @@ def extract_flags(repo_location, module_name, verbose=0, names_only=True):
 
     return flags
 
+def extract_flags_test(repo_loc, module, verbose=0):
+    """
+    TEST TEST TEST TEST TEST TEST
+    TEST TEST TEST TEST TEST TEST
+    Loops through the repository, importing module by module to
+    populate the configuration object (cfg.CONF) created from Oslo.
+    TEST TEST TEST TEST TEST TEST
+    TEST TEST TEST TEST TEST TEST
+    """
+    flag_data = {}
+    flag_files = []
+    usable_dirs = []
+    module_location = os.path.dirname(repo_loc + '/' + module)
+    for root, dirs, files in os.walk(module_location + '/' + module):
+        for name in dirs:
+            abs_path = os.path.join(root.split(module_location)[1][1:], name)
+            if ('/tests' not in abs_path and '/locale' not in abs_path and
+                '/cmd' not in abs_path  and '/db/migration' not in abs_path):
+                usable_dirs.append(os.path.join(root.split(module_location)[1][1:], name))
+
+    for directory in usable_dirs:
+        for python_file in glob.glob(module_location + '/' + directory + "/*.py"):
+            if '__init__' not in python_file:
+                usable_dirs.append(os.path.splitext(python_file)[0][len(module_location) + 1:])
+
+        package_name = directory.replace('/', '.')
+        try:
+            __import__(package_name)
+            if verbose >= 1:
+                print "imported %s" % package_name
+#            for item, val in cfg.CONF._opts.iteritems():
+#                print item, val
+            flag_data[str(package_name)] = sorted(cfg.CONF._opts.items())
+#            if package_name in sys.modules:
+#                del(sys.modules[package_name])
+
+        except ImportError as e:
+            """
+            work around modules that don't like being imported in this way
+            FIXME This could probably be better, but does not affect the
+            configuration options found at this stage
+            """
+            if verbose >= 2:
+                print str(e)
+                print "Failed to import: %s (%s)" % (package_name, e)
+
+            continue
+
+    #flags = cfg.CONF._opts.items()
+
+    #extract group information
+    #for group in cfg.CONF._groups.keys():
+    #    flags = flags + cfg.CONF._groups[group]._opts.items()
+    #flags.sort()
+
+    #return flags
+    return flag_data
+
+def write_test(file, repo_dir, pkg_name):
+    """
+    """
+    file1 = file + ".test"
+    flags = extract_flags_test(repo_dir, pkg_name)
+    with open(file1, 'a+') as f:
+        f.write("\n")
+        for filename, flag_info in flags.iteritems():
+            f.write("\n -- start file name area --\n")
+            f.write(filename)
+            f.write("\n -- end file name area --\n")
+            print "\n -- start file name area --\n"
+            print filename
+            print "\n -- end file name area --\n"
+            print len(flag_info)
+            for name, value in flag_info:
+                opt = value['opt']
+                #print type(opt)
+                #print opt
+                #print name
+                #print value
+                f.write(name)
+                f.write("\n")
+
+def write_header(filepath, verbose=0):
+    """
+    Write header to output flag file.
+    """
+    pass
+
+def write_buffer(file, flags, verbose=0):
+    """
+    Write flag data to file.  (The header is written with the write_header function.)
+    """
+    pass
+    #with open(os.path.expanduser(filepath), 'wb') as f:
+
+
 def write_flags(filepath, flags, name_only=True, verbose=0):
     """
     write out the list of flags in the cfg.CONF object to filepath
@@ -265,6 +361,18 @@ def parse_me_args():
         action='count',
         default=0,
         dest='verbose',
+        required=False,
+    )
+    parser.add_argument('-no', '--name_only',
+        action='store_true',
+        dest='name',
+        help='specify whether output file should contains names only - not fully formatted output',
+        required=False,
+    )
+    parser.add_argument('-test',
+        action='store_true',
+        dest='test',
+        help=argparse.SUPPRESS,
         required=False,
     )
     args = vars(parser.parse_args())
