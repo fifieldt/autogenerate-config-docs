@@ -39,7 +39,12 @@ def populate_groups(filepath):
     groups = defaultdict(list)
     groups_file = open(os.path.expanduser(filepath), 'r')
     for line in groups_file:
-        option, group = line.split(None, 1)
+        try:
+            option, group = line.split(None, 1)
+        except ValueError:
+            print "Couldn't read groups file line:%s" % line
+            print "Check for formatting errors - did you add the group?"
+            sys.exit(1)
         groups[group.strip()].append(option)
     return groups
 
