@@ -32,7 +32,7 @@ Next, install oslo.config
 
 and finally, the dependencies for the product you are working with:
 
-    $ sudo pip install -r nova/tools/pip-requires
+    $ sudo pip install -r nova/requirements.txt
 
 Now you are ready to use the tool.
 
