@@ -53,12 +53,13 @@ This is currently done manually, by using the flag name file and placing
 a category after a space.
 
 eg
-    $ head flagmappings/glance.flagmappings 
-    admin\_password registry
-    admin\_role api
-    admin\_tenant\_name registry
-    admin\_user registry
-    ...
+
+     $ head flagmappings/glance.flagmappings 
+     admin\_password registry
+     admin\_role api
+     admin\_tenant\_name registry
+     admin\_user registry
+     ...
 
 3) Creation of docbook-formatted configuration table files
 
