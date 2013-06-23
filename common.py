@@ -249,9 +249,11 @@ def write_docbook(directory, flags, groups, package_name, verbose=0):
                     opt = flag[1]["opt"]
                     if not opt.help:
                         opt.help = "No help text available for this option"
+                    if type(opt).__name__ == "ListOpt" and opt.default is not None:
+                        opt.default = ",".join(opt.default)
                     groups_file.write('\n              <tr>\n\
                        <td>' + flag_name + '=' + str(opt.default) + '</td>\n\
-                       <td>(' + type(opt).__name__ + ')' + escape(opt.help) + '</td>\n\
+                       <td>(' + type(opt).__name__ + ') ' + escape(opt.help) + '</td>\n\
               </tr>')
         groups_file.write('\n       </tbody>\n\
         </table>\n\
