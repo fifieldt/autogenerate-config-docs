@@ -15,6 +15,7 @@ from oslo.config import cfg
 import __builtin__
 __builtin__.__dict__['_'] = lambda x: x
 
+
 def git_check(repo_path):
     from git import Repo
     """
@@ -29,6 +30,7 @@ def git_check(repo_path):
         print "is a valid git repoistory.  Please try again.\n"
         sys.exit(1)
     return package_name
+
 
 def populate_groups(filepath):
     """
@@ -48,6 +50,7 @@ def populate_groups(filepath):
         groups[group.strip()].append(option)
     return groups
 
+
 def extract_flags(repo_location, module_name, verbose=0, names_only=True):
     """
     Loops through the repository, importing module by module to
@@ -59,7 +62,7 @@ def extract_flags(repo_location, module_name, verbose=0, names_only=True):
         for name in dirs:
             abs_path = os.path.join(root.split(module_location)[1][1:], name)
             if ('/tests' not in abs_path and '/locale' not in abs_path and
-                '/cmd' not in abs_path  and '/db/migration' not in abs_path):
+                '/cmd' not in abs_path and '/db/migration' not in abs_path):
                 usable_dirs.append(os.path.join(root.split(module_location)[1][1:], name))
 
     for directory in usable_dirs:
@@ -94,6 +97,7 @@ def extract_flags(repo_location, module_name, verbose=0, names_only=True):
 
     return flags
 
+
 def extract_flags_test(repo_loc, module, verbose=0):
     """
     TEST TEST TEST TEST TEST TEST
@@ -111,7 +115,7 @@ def extract_flags_test(repo_loc, module, verbose=0):
         for name in dirs:
             abs_path = os.path.join(root.split(module_location)[1][1:], name)
             if ('/tests' not in abs_path and '/locale' not in abs_path and
-                '/cmd' not in abs_path  and '/db/migration' not in abs_path):
+                '/cmd' not in abs_path and '/db/migration' not in abs_path):
                 usable_dirs.append(os.path.join(root.split(module_location)[1][1:], name))
 
     for directory in usable_dirs:
@@ -124,11 +128,7 @@ def extract_flags_test(repo_loc, module, verbose=0):
             __import__(package_name)
             if verbose >= 1:
                 print "imported %s" % package_name
-#            for item, val in cfg.CONF._opts.iteritems():
-#                print item, val
             flag_data[str(package_name)] = sorted(cfg.CONF._opts.items())
-#            if package_name in sys.modules:
-#                del(sys.modules[package_name])
 
         except ImportError as e:
             """
@@ -142,15 +142,8 @@ def extract_flags_test(repo_loc, module, verbose=0):
 
             continue
 
-    #flags = cfg.CONF._opts.items()
-
-    #extract group information
-    #for group in cfg.CONF._groups.keys():
-    #    flags = flags + cfg.CONF._groups[group]._opts.items()
-    #flags.sort()
-
-    #return flags
     return flag_data
+
 
 def write_test(file, repo_dir, pkg_name):
     """
@@ -176,11 +169,13 @@ def write_test(file, repo_dir, pkg_name):
                 f.write(name)
                 f.write("\n")
 
+
 def write_header(filepath, verbose=0):
     """
     Write header to output flag file.
     """
     pass
+
 
 def write_buffer(file, flags, verbose=0):
     """
@@ -221,6 +216,7 @@ def write_flags(filepath, flags, name_only=True, verbose=0):
         if not name_only:
             f.write("|}\n")  # end table
 
+
 def write_docbook(directory, flags, groups, package_name, verbose=0):
     """
     Prints a docbook-formatted table for every group of options.
@@ -253,12 +249,14 @@ def write_docbook(directory, flags, groups, package_name, verbose=0):
                         opt.default = ",".join(opt.default)
                     groups_file.write('\n              <tr>\n\
                        <td>' + flag_name + '=' + str(opt.default) + '</td>\n\
-                       <td>(' + type(opt).__name__ + ') ' + escape(opt.help) + '</td>\n\
+                       <td>(' + type(opt).__name__ + ') '
+                        + escape(opt.help) + '</td>\n\
               </tr>')
         groups_file.write('\n       </tbody>\n\
         </table>\n\
         </para>')
         groups_file.close()
+
 
 def create(flag_file, repo_path):
     """
@@ -286,7 +284,8 @@ def create(flag_file, repo_path):
     # Write this information to the file.
     #write_file(flag_file, help_data)
 
-def update():
+
+def update(filepath, flags, name_only=True, verbose=0):
     """
         Update flag mappings file, adding or removing entries as needed.
         This will update the file content, essentially overriding the data.
@@ -294,25 +293,47 @@ def update():
         make a new file, and update will just work with the data that is
         data that is already there.
     """
+    original_flags = []
+    updated_flags = []
+    write_flags(filepath + '.new', flags, name_only=True, verbose=0)
+    original_flag_file = open(filepath)
+    updated_flag_file = open(filepath + '.new', 'r')
+    for line in original_flag_file:
+        original_flags.append(line.split()[0])
+    for line in updated_flag_file:
+        updated_flags.append(line.rstrip())
+    updated_flag_file.close()
 
-    # flag_file testing.
-    #try:
-        # Test for successful creation of flag_file.
-    #except:
-        # If the test(s) fail, exit noting the problem(s).
+    removed_flags = set(original_flags) - set(updated_flags)
+    added_flags = set(updated_flags) - set(original_flags)
 
-    # repo_path git repo validity testing.
-    #try:
-        # Test to be sure the repo_path passed in is a valid directory
-        # and that directory is a valid existing git repo.
-    #except:
-        # If the test(s) fail, exit noting the problem(s).
+    print "\nRemoved Flags\n"
+    for line in sorted(removed_flags):
+        print line
+
+    print "\nAdded Flags\n"
+    for line in sorted(added_flags):
+        print line
+
+    updated_flag_file = open(filepath + '.new', 'wb')
+    original_flag_file.seek(0)
+    for line in original_flag_file:
+        flag_name = line.split()[0]
+        if flag_name not in removed_flags:
+            for added_flag in added_flags:
+                if flag_name > added_flag:
+                    updated_flag_file.write(added_flag + ' Unknown\n')
+                    added_flags.remove(added_flag)
+                    break
+            updated_flag_file.write(line)
+
 
 def verify(flag_file):
     """
         Verify flag file contents.  No actions are taken.
     """
     pass
+
 
 def usage():
         print "\nUsage: %s docbook <groups file> <source loc>" % sys.argv[0]
@@ -323,64 +344,52 @@ def usage():
         print "\nGenerate a list of all flags names for the package in"\
               "\nsource loc and writes them to names file, one per line \n"
 
+
 def parse_me_args():
     import argparse
     parser = argparse.ArgumentParser(
-        description='Manage flag files, to in turn aid in updating documentation.',
-        epilog='Example: %(prog)s -a create -in ./nova.flagfile -fmt docbook -p /opt/git/openstack/nova',
-        usage='%(prog)s [options]'
-    )
+        description='Manage flag files, to aid in updatingdocumentation.',
+        epilog='Example: %(prog)s -a create -in ./nova.flagfile -fmt docbook\
+ -p /nova',
+        usage='%(prog)s [options]')
     parser.add_argument('-a', '--action',
-        choices=['create', 'update', 'verify'],
-        dest='action',
-        help='specify action to take (options: create, update, verify) [REQUIRED]',
-        required=True,
-        type=str,
-    )
+                        choices=['create', 'update', 'verify'],
+                        dest='action',
+                        help='action (create, update, verify) [REQUIRED]',
+                        required=True,
+                        type=str,)
     # trying str data type... instead of file.
     parser.add_argument('-i', '-in', '--input',
-        dest='file',
-        help='flag file being worked with in some way [REQUIRED]',
-        required=True,
-        type=str,
-    )
+                        dest='file',
+                        help='flag file being worked with [REQUIRED]',
+                        required=True,
+                        type=str,)
     parser.add_argument('-f', '-fmt', '--format', '-o', '-out',
-        dest='format',
-        help='flag file output format (options: docbook, names)',
-        required=False,
-        type=str,
-    )
+                        dest='format',
+                        help='file output format (options: docbook, names)',
+                        required=False,
+                        type=str,)
     # ..tried having 'dir' here for the type, but the git.Repo function
     # requires a string is passed to it.. a directory won't work.
     parser.add_argument('-p', '--path',
-        dest='repo',
-        help='path to valid git repository [REQUIRED]',
-        required=True,
-        type=str,
-    )
-#    parser.add_argument('-v', '--verbose',
-#        action='store_true',
-#        dest='verbose',
-#        help='increase verbosity/debug output',
-#        required=False,
-#    )
+                        dest='repo',
+                        help='path to valid git repository [REQUIRED]',
+                        required=True,
+                        type=str,)
     parser.add_argument('-v', '--verbose',
-        action='count',
-        default=0,
-        dest='verbose',
-        required=False,
-    )
+                        action='count',
+                        default=0,
+                        dest='verbose',
+                        required=False,)
     parser.add_argument('-no', '--name_only',
-        action='store_true',
-        dest='name',
-        help='specify whether output file should contains names only - not fully formatted output',
-        required=False,
-    )
+                        action='store_true',
+                        dest='name',
+                        help='whether output should contain names only',
+                        required=False,)
     parser.add_argument('-test',
-        action='store_true',
-        dest='test',
-        help=argparse.SUPPRESS,
-        required=False,
-    )
+                        action='store_true',
+                        dest='test',
+                        help=argparse.SUPPRESS,
+                        required=False,)
     args = vars(parser.parse_args())
     return args

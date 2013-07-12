@@ -68,7 +68,7 @@ console_xvp_multiplex_port xen
 console_xvp_pid xen
 consoleauth_manager console
 consoleauth_topic common
-control_exchange rpc 
+control_exchange rpc
 cpu_allocation_ratio scheduling
 create_unique_mac_address_attempts network
 crl_file ca
@@ -165,7 +165,7 @@ injected_network_template network
 injected_network_template network
 instance_build_timeout compute
 instance_dns_domain network
-instance_dns_manager network 
+instance_dns_manager network
 instance_format logging
 instance_name_template api
 instance_type_extra_specs baremetal

@@ -26,19 +26,16 @@ def main(action, file, format, repo, verbose=0, name=False, test=False):
             print str(e)
             print "Failed to import: %s (%s)" % (package_name, e)
 
-
-    if test is True:
-        #print "Test is true."
-        common.write_test(file, repo, package_name)
-    else:
-        print "Test is false."
-
         if verbose >= 1:
             flags = common.extract_flags(repo, package_name, verbose)
         else:
             flags = common.extract_flags(repo, package_name)
 
-        print "%s flags successfully imported from package %s." % (len(flags), str(package_name))
+        print "%s flags imported from package %s." % (len(flags),
+                                                      str(package_name))
+        if action == "update":
+            common.update(file, flags, True, verbose)
+            return
 
         if format == "names":
             if verbose >= 1:
@@ -61,10 +58,9 @@ if  __name__ == "__main__":
     args = common.parse_me_args()
 
     main(args['action'],
-        args['file'],
-        args['format'],
-        args['repo'],
-        args['verbose'],
-        args['name'],
-        args['test']
-    )
+         args['file'],
+         args['format'],
+         args['repo'],
+         args['verbose'],
+         args['name'],
+         args['test'])
