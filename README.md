@@ -1,4 +1,4 @@
-autogenerate-config-docs
+this repository is no longer used - the content has been merged into OpenStack
 ========================
 
 Automatically generate configuration tables to document OpenStack.
